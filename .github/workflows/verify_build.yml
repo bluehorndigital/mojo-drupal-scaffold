@@ -1,0 +1,39 @@
+name: Build
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  install:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        php: [7.4, 8.0]
+        os: [ubuntu-latest]
+    name: scaffold - ${{ matrix.php }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+            path: |
+              ~/.composer/cache/files
+              ~/.composer/cache/repo
+            key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+      - uses: shivammathur/setup-php@v2
+        with:
+            php-version: ${{ matrix.php }}
+            extensions: dom, curl, libxml, mbstring, zip, pdo, mysql, pdo_mysql, bcmath, soap, intl, gd, exif, iconv
+            coverage: none
+            tools: composer:v2
+      - name: Setup Drupal
+        uses: bluehorndigital/setup-drupal@v1.0.1
+        with:
+          version: '^9.0'
+          path: ~/drupal
+      - name: Require self
+        run: |
+          cd ~/drupal
+          COMPOSER_MEMORY_LIMIT=-1 composer require bluehorndigital/mojo-drupal-scaffold *@dev
+      - name: verify scaffolded settings.php
+        run: diff -u assets/mojo.settings.php ~/drupal/web/sites/default/settings.php
