@@ -1,6 +1,7 @@
 {
     "name": "bluehorndigital/mojo-drupal-scaffold",
     "descripton": "Scaffolding to add some Mojo to your Drupal projects.",
+    "license": ["MIT"],
     "type": "composer-plugin",
     "require": {
         "php": "^7.4 || ^8.0",
