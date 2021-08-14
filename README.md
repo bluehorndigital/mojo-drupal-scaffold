@@ -4,6 +4,14 @@ Scaffolding to add some Mojo to your Drupal projects.
 
 This package adds scaffolding files for your Drupal project by integrating with `drupal/core-composer-scaffold`.
 
+## Install
+
+```
+composer require bluehorndigital/mojo-drupal-scaffold
+```
+
+The package automatically adds itself to the allowed packages list for `drupal/core-composer-scaffold`.
+
 ## Why?
 
 Composer project templates are great, except they are a "fork and forget" model. This means various project files can drift and lose updates when there are upstream improvements.
